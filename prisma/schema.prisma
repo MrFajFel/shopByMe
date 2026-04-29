@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+
+
+model Users {
+  id_user       Int       @id @default(autoincrement())
+  user_name     String    @db.VarChar(20)
+  password      String
+  creation_time DateTime  @db.Date
+  is_admin      Boolean   @default(false)
+
+  carts         Cart[]
+  addresses     User_address[]
+}
+
+model Category {
+  id_category Int       @id @default(autoincrement())
+  name        String
+
+  products    Products[]
+}
+
+model Promotion {
+  id_promotion Int      @id @default(autoincrement())
+  discount     Int
+  starts       DateTime @db.Date
+  ends         DateTime @db.Date
+
+  products     Products[]
+}
+
+model Products {
+  id_product   Int        @id @default(autoincrement())
+  name         String
+  price        Float
+  procentage   Int
+
+  id_promotion Int?
+  id_category  Int?
+
+  promotion    Promotion? @relation(fields: [id_promotion], references: [id_promotion])
+  category     Category?  @relation(fields: [id_category], references: [id_category])
+
+  cart_items   Cart_items[]
+}
+
+model Cart {
+  id_cart Int    @id @default(autoincrement())
+  id_user Int
+
+  user    Users  @relation(fields: [id_user], references: [id_user])
+  items   Cart_items[]
+}
+
+model Cart_items {
+  id_cart    Int
+  id_product Int
+  Quantity   Int
+
+  cart       Cart     @relation(fields: [id_cart], references: [id_cart])
+  product    Products @relation(fields: [id_product], references: [id_product])
+
+  @@id([id_cart, id_product]) // composite primary key
+}
+
+model Addresses {
+  id_address Int    @id @default(autoincrement())
+  country    String
+  city       String
+  street     String
+  post_code  String
+
+  users      User_address[]
+}
+
+model User_address {
+  id_user    Int
+  id_address Int
+
+  user       Users    @relation(fields: [id_user], references: [id_user])
+  address    Addresses @relation(fields: [id_address], references: [id_address])
+
+  @@id([id_user, id_address]) // composite key
+}

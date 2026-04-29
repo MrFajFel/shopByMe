@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+
+html{
+    overflow-x: hidden;
+}
+
+
+header, h1 {
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
