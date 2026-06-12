@@ -1,4 +1,8 @@
 export default function Carusel(){
+
+    const images = ["golab.jpg","","",""]
+
+
     return(
         <div className="flex justify-between bg-red-300">
             <div className="p-60 pr-12 pl-12"> 

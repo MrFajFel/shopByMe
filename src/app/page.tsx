@@ -32,7 +32,8 @@ export default function Home() {
 
         <Sections>
           <h1 className="text-3xl m-2 ">Items from the Shop:</h1>
-          <div className="flex  flex-wrap gap-5 ">
+          <div className="flex gap-5 overflow-x-auto">
+            {/* here generate items */}
             <Items/>
             <Items/>
             <Items/>
